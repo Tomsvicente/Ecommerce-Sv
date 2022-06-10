@@ -1,4 +1,14 @@
 const fs = require('fs');
+const express = require('express');
+const { Server } = require('http');
+const app = express()
+
+
+const server = app.listen(8080, () => {
+    console.log(`Servidor prendido en el puerto ${server.address().port}`)
+})
+server.on('error', err => console.log(`Error en el server ${err}`))
+
 
 // class Usuario {
 //     constructor(nombre, apellido,libros,mascotas){
@@ -48,109 +58,132 @@ const fs = require('fs');
 class Contenedor {
     constructor(nombreArchivo) {
         this.nombreArchivo = nombreArchivo;
-        fs.promises.writeFile(nombreArchivo, "[]");
+        // fs.promises.writeFile(nombreArchivo, "[]");
     }
 
-    save = async (objeto) => {
-        let datos = await fs.promises.readFile(this.nombreArchivo, "utf-8")
-        let arrDatos = JSON.parse(datos);
+    // save = async (objeto) => {
+    //     let datos = await fs.promises.readFile(this.nombreArchivo, "utf-8")
+    //     let arrDatos = JSON.parse(datos);
 
-        try{
-            arrDatos = [...arrDatos, objeto];
-            objeto.id = arrDatos.length;
-            await fs.promises.writeFile(
-                this.nombreArchivo,
-                JSON.stringify(arrDatos, null, 2)
-            );
-            return objeto.id;
-        } catch (err){
-            console.log(`Hubo un error, no se puede escribir el archivo ${err}`);
-        }
+    //     try {
+    //         arrDatos = [...arrDatos, objeto];
+    //         objeto.id = arrDatos.length;
+    //         await fs.promises.writeFile(
+    //             this.nombreArchivo,
+    //             JSON.stringify(arrDatos, null, 2)
+    //         );
+    //         return objeto.id;
+    //     } catch (err) {
+    //         console.log(`Hubo un error, no se puede escribir el archivo ${err}`);
+    //     }
+    // };
+
+    // getById = async (numberID) => {
+    //     let data = await fs.promises.readFile(this.nombreArchivo, "utf-8");
+    //     let arrData = JSON.parse(data);
+    //     let findID = arrData.find(({ id }) => id == numberID);
+    //     try {
+    //         findID == undefined
+    //             ? console.log(null)
+    //             : console.log(`Producto: ${numberID} => ${findID.title}`);
+    //     } catch (error) {
+    //         console.log(`Error en el procesamiento de búsqueda: ${error}`);
+    //     }
+
+    //     return findID;
+    // };
+
+
+    getAll = async () => {
+        let data = JSON.parse(await fs.promises.readFile(this.nombreArchivo, "utf-8"));
+        return data;
     };
 
-    getById = async (numberID) => {
-            let data = await fs.promises.readFile(this.nombreArchivo, "utf-8");
-            let arrData = JSON.parse(data);
-            let findID = arrData.find(({ id }) => id == numberID);
-            try {
-                findID == undefined
-                ?  console.log(null)
-                : console.log(`Producto: ${numberID} => ${findID.title}`);
-            } catch (error) {
-                console.log(`Error en el procesamiento de búsqueda: ${error}`);
-            }
-        
-            return findID;
-            };
-        
-    getAll = async () => {
-        let data = await fs.promises.readFile(this.nombreArchivo, "utf-8");
-        let arrData = JSON.parse(data);
-        return arrData;
-        };
-        
-    deleteById = async (numberID) => {
-        let data = await fs.promises.readFile(this.nombreArchivo, "utf-8");
-        let arrData = JSON.parse(data);
-        
-        try {
-            let findID = arrData.filter(({ id }) => id != numberID);
-            await fs.promises.writeFile(
-                this.nombreArchivo,
-                JSON.stringify(findID, null, 2)
-            );
-            } catch (err) {
-                console.log(`No se ha podido guardar el objeto: ${err}`);
-            }
-        };
-        
-    deleteAll = () => {
-        console.log("Se han eliminado todos los elementos")
-        fs.promises.writeFile(this.nombreArchivo, "");
-        };
+    // deleteById = async (numberID) => {
+    //     let data = await fs.promises.readFile(this.nombreArchivo, "utf-8");
+    //     let arrData = JSON.parse(data);
+
+    //     try {
+    //         let findID = arrData.filter(({ id }) => id != numberID);
+    //         await fs.promises.writeFile(
+    //             this.nombreArchivo,
+    //             JSON.stringify(findID, null, 2)
+    //         );
+    //     } catch (err) {
+    //         console.log(`No se ha podido guardar el objeto: ${err}`);
+    //     }
+    // };
+
+    // deleteAll = () => {
+    //     console.log("Se han eliminado todos los elementos")
+    //     fs.promises.writeFile(this.nombreArchivo, "");
+    // };
 }
 
 
 const file = new Contenedor("./Archivos/productos.json");
 
-const saveFunction = async () => {
-await file.save({
-    title: "Mouse",
-    price: "14.000",
-    thumbnail: "Mouse",
+// const saveFunction = async () => {
+//     await file.save({
+//         title: "Mouse",
+//         price: "14.000",
+//         thumbnail: "Mouse",
+//     });
+
+//     await file.save({
+//         title: "Monitor LG",
+//         price: "20.000",
+//         thumbnail: "Monitor Curvo",
+//     });
+
+//     await file.save({
+//         title: "Placa de video",
+//         price: "350.000",
+//         thumbnail: "Placa GeForce",
+//     });
+
+//     await file.save({
+//         title: "Silla Gamer",
+//         price: "15.000",
+//         thumbnail: "Silla gamer",
+//     });
+
+//     await file.save({
+//         title: "Teclado",
+//         price: "7.800",
+//         thumbnail: "Telcado Red Dragon",
+//     });
+
+    // await file.getById(3);
+
+    // await file.getAll();
+
+    // await file.deleteById(2);
+
+    // await file.deleteAll(); /* Funciona descomentado */
+// };
+
+// saveFunction();
+
+app.get("/", (req, res) => {
+    
+    res.send('<h1 >Bienvenidos al servidor </h1><br><a href="http://localhost:8080/productoRandom"><button>Producto Random</button><a> <a href="http://localhost:8080/productos"><button>Productos</button></a>');
 });
 
-await file.save({
-    title: "Monitor LG",
-    price: "20.000",
-    thumbnail: "Monitor Curvo",
-});
+app.get("/productos", async (req, res) => {
+    
+    let data = await file.getAll();
+    let productosNombre = data.map(({title}) => title);
+    res.json(`Lista de productos: [${productosNombre.join(", ")}]`);
+})
 
-await file.save({
-    title: "Placa de video",
-    price: "350.000",
-    thumbnail: "Placa GeForce",
-});
+app.get('/productoRandom', async (req, res) => {
+    let data = await file.getAll();
+    let random = Math.random() * data.length;
+    let numbRandom = Math.floor(random);
 
-await file.save({
-    title: "Silla Gamer",
-    price: "15.000",
-    thumbnail: "Silla gamer",
-});
-
-await file.save({
-    title: "Teclado",
-    price: "7.800",
-    thumbnail: "Telcado Red Dragon",
-});
-
-// await file.getById(3);
-
-// await file.getAll();
-
-// await file.deleteById(2);
-
-// await file.deleteAll(); /* Funciona descomentado */
-};
-
-saveFunction();
+    res.send(`<h1 >Producto: ${data[numbRandom].title}</h1><br>
+        <h1>Precio: $${data[numbRandom].price}</h1><br>
+        <img src="${data[numbRandom].thumbnail}" alt="Producto" style="max-width:200px; max-height:200px" /><br><a href='http://localhost:8080'><button style="margin: 10px 5px 0 0" type="submit">Inicio</button></a><button onClick="window.location.reload()">Número Random</button>
+    `);
+})
