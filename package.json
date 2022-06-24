@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon ./src/server.js"
+    "start": "nodemon ./src/server.js",
+    "sass:compile": "node-sass --include-path scss views/styles.scss views/estilos.css" 
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,8 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.16",
     "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "node-sass": "^7.0.1"
   }
 }

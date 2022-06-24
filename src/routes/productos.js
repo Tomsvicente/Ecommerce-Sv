@@ -21,7 +21,6 @@ router.get("/:id", (req, res) => {
     let data = file.getById(req.params.id);
     if (!data) {
         res.json({ error: "producto no encontrado" });
-        // res.render('404.ejs')
     }
     res.json(data);
 });
@@ -33,7 +32,7 @@ router.post("/", (req, res) => {
     if (!data) {
         res.status(400).send("Complete los campos restantes");
     }
-    res.status(200).send(`Producto ${data.id} cargado exitosamente`);
+    res.status(200).redirect("/api/productos");
 });
 
 // put
