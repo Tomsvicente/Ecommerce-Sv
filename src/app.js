@@ -1,18 +1,31 @@
 const express = require("express");
 const app = express();
-const productosRoute = require("./routes/productos");
-const indexRoute = require("./routes/index");
+const indexApiRest = require("./routes/indexApiRest");
+const index = require("./routes/index");
 const path = require("path");
-app.use(express.static(path.join(__dirname, './public')));
 const morgan = require("morgan");
+const { engine } = require("express-handlebars");
+
+// handlebars settings
+app.engine(
+    "hbs",
+    engine({
+        extname: ".hbs",
+        defaultLayout: path.join(__dirname, "./views/main.hbs"),
+        layoutsDir: path.join(__dirname, "./views"),
+        partialsDir: path.join(__dirname, "./views/partials"),
+    })
+);
+
 
 // settings
 app.set("port", 8080);
 app.set("json spaces", 2);
-// app.set("views", path.join(__dirname, "views"));// ejs
-// app.set("view engine", "ejs");// ejs
-app.set("views", path.join(__dirname, "./views")); // pug
-app.set("view engine", "pug");// pug
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");// ejs
+// app.set("view engine", "pug");// pug
+// app.set("view engine", "hbs"); // hbs
+
 
 // middleware
 app.use(morgan("dev"));
@@ -20,12 +33,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // routes
-app.use("/", indexRoute);
-app.use("/api/productos", productosRoute);
+app.use("/", index);
+app.use("/api/productos", indexApiRest);
 
-// statics
-app.use(express.static(path.join(__dirname, "public")));
-// app.use('/html', express.static('html'))
+// staticsnp
+app.use(express.static(path.join(__dirname, "./public")));
 
 // 404 handler
 app.use((req, res, next) => {

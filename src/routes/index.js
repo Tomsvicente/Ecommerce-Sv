@@ -1,8 +1,9 @@
 const { Router } = require("express");
+const { productsView, formView, formSubmit } = require("../controllers/apiController");
 const router = Router(); //Router
 
-router.get("/", (req, res) => {
-    res.render('index.ejs')
-});
+router.get("/", formView);
+router.get("/productos", productsView)
+router.post("/productos", formSubmit);
 
-module.exports = router
+module.exports = router;

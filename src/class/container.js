@@ -20,7 +20,9 @@ class Contenedor {
     update = (object, clientId) => {
         // actualiza un objecto según el ID
 
-        let data = this.products.findIndex(({ id }) => id == clientId);
+        let data = this.products.findIndex(({
+            id
+        }) => id == clientId);
         if (data != -1) {
             try {
                 object.id = clientId;
@@ -36,7 +38,9 @@ class Contenedor {
     getById = (clientId) => {
         // obtiene el producto con el ID proporcionado por el cliente
 
-        let data = this.products.find(({ id }) => id == clientId);
+        let data = this.products.find(({
+            id
+        }) => id == clientId);
         if (data) {
             try {
                 return data;
@@ -59,7 +63,9 @@ class Contenedor {
     deleteById = (clientId) => {
         // elimina del archivo el objeto con el ID buscado
         try {
-            let data = this.products.filter(({ id }) => id != clientId);
+            let data = this.products.filter(({
+                id
+            }) => id != clientId);
             return data;
         } catch (err) {
             console.log(`Error en deleteById: ${err}`);
@@ -70,4 +76,6 @@ class Contenedor {
 
 module.exports = Contenedor;
 
-const container = new Contenedor();
+// const container = new Contenedor();
+
+// console.log(container.deleteById(8));
