@@ -1,63 +1,71 @@
-const socket = io()
+// Socket
+const socket = io();
 
-//Formularios mensajes
-const formMessage = document.querySelector('#formMessage')
-const userInput = document.querySelector('#userInput')
-const messageInput = document.querySelector('#messageInput')
-const messagePool = document.querySelector('#messagePool')
+// Formularios
+// Formulario productos
+const productForm = document.querySelector('#productForm');
+const nameInput = document.querySelector('#nameInput');
+const priceInput = document.querySelector('#priceInput');
+const urlInput = document.querySelector('#urlInput');
 
-//Formularios productos
-const formProduct = document.querySelector('#formProduct')
-const nameInput = document.querySelector('#nameInput')
-const priceInput = document.querySelector('#priceInput')
-const urlInput = document.querySelector('#urlInput')
+// Formulario mensajes
+const formMessage = document.querySelector('#formMessage');
+const usernameInput = document.querySelector('#usernameInput');
+const messageInput = document.querySelector('#messageInput');
+const messagePool = document.querySelector('#messagePool');
 
-async function addProduct(productos){
-    const res = await fetch('../public/hbs/productList.hbs');
-    const layout = await res.text();
+// Productos
+async function renderProducts(productos) {
+    const response = await fetch('./hbs/productList.hbs');
+    const plantilla = await response.text();
 
     document.querySelector('#productPool').innerHTML = "";
     productos.forEach(producto => {
-        const template = Handlebars.compile(layout)
+        const template = Handlebars.compile(plantilla);
         const html = template(producto);
         document.querySelector('#productPool').innerHTML += html;
     })
-}
+} 
 
 function submitHandlerProduct(event) {
-    event.preventDefault()
+    // Para que no recargue la página al ocurrir el evento
+    event.preventDefault();
 
-    const title = nameInput.value
-    const price = priceInput.value
-    const thumbnail = urlInput.value
-    
-    socket.emit('cliente:producto', {title, price, thumbnail})
+    const title = nameInput.value;
+    const price = priceInput.value;
+    const thumbnail = urlInput.value;
+
+    socket.emit('cliente:producto', { title, price, thumbnail });
 }
 
 
-formMessage.addEventListener('submit', event => {
-    event.preventDefault()
+// Chat
+function submitHandlerMessage(event) {
+    // Para que no recargue la página al ocurrir el evento
+    event.preventDefault();
 
-    const message = messageInput.value
-    const userName = userInput.value
-    const date = new Date();
-    const dateNow = date.toLocaleString("fr-FR")
+    const message = messageInput.value;
+    const username = usernameInput.value;
+    const timeStamp = new Date();
+    const localTs = timeStamp.toLocaleString("fr-FR");
 
-    socket.emit('cliente:mensaje', { userName, dateNow , message })
-})
+    socket.emit('cliente:mensaje', { username, localTs, message });
+}
 
-socket.on('server:mensaje', messageArray => {
-    messagePool.innerHTML = ""
+function renderMessage(messageArray) {
+    const html = messageArray.map(messageInfo => {
+        return(`<div class="msgContainer">
+        <span class="msgUser">${messageInfo.username}</span>
+        [<span class="msgTs">${messageInfo.localTs}</span>] :
+        <span class="msgMsg">${messageInfo.message}</span>
+        </div>`)
+    }).join(" ");
+    messagePool.innerHTML = html;
+}
 
-    messageArray.forEach(messageInfo => {
-        messagePool.innerHTML += `<li>
-        <span class="msgUsuario">${messageInfo.userName}</span>
-        [<span class="msgFecha">${messageInfo.dateNow}</span>] : 
-        <span class="msgEnviado">${messageInfo.message}</span>
-        </li>`
-    })
-    
-})
+// Eventos
+productForm.addEventListener('submit', submitHandlerProduct);
+socket.on('server:productos', renderProducts);
 
-formProduct.addEventListener('submit', submitHandlerProduct);
-socket.on('server:productos', addProduct);
+formMessage.addEventListener('submit', submitHandlerMessage);
+socket.on('server:mensaje', renderMessage);

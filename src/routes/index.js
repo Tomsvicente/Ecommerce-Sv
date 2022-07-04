@@ -1,9 +1,12 @@
-const { Router } = require("express");
-const { productsView, formView, formSubmit } = require("../controllers/apiController");
-const router = Router(); //Router
+const { Router } = require('express');
+const router = Router();
 
-router.get("/", formView);
-router.get("/productos", productsView)
-router.post("/productos", formSubmit);
+const productos = require('./productos');
+
+router.get('/', (req, res) => {
+    res.render('index');
+})
+
+router.use('/productos', productos);
 
 module.exports = router;
