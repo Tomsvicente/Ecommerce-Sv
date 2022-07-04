@@ -34,7 +34,7 @@ function submitHandlerProduct(event) {
     const title = nameInput.value;
     const price = priceInput.value;
     const thumbnail = urlInput.value;
-
+    productForm.reset();
     socket.emit('cliente:producto', { title, price, thumbnail });
 }
 
@@ -48,16 +48,16 @@ function submitHandlerMessage(event) {
     const username = usernameInput.value;
     const timeStamp = new Date();
     const localTs = timeStamp.toLocaleString("fr-FR");
-
+    formMessage.reset();
     socket.emit('cliente:mensaje', { username, localTs, message });
 }
 
 function renderMessage(messageArray) {
     const html = messageArray.map(messageInfo => {
         return(`<div class="msgContainer">
-        <span class="msgUser">${messageInfo.username}</span>
-        [<span class="msgTs">${messageInfo.localTs}</span>] :
-        <span class="msgMsg">${messageInfo.message}</span>
+        <span class="msgUser" style="color:midnightblue; font-weight: bold">${messageInfo.username}</span>
+        [<span class="msgTs" style="color: saddlebrown;">${messageInfo.localTs}</span>] :
+        <span class="msgMsg" style="font-style:italic; color:seagreen">${messageInfo.message}</span>
         </div>`)
     }).join(" ");
     messagePool.innerHTML = html;

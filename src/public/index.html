@@ -36,24 +36,25 @@
         </div>
     </div>
 
-    <h2>Listado de productos</h2>
-    <div class="container" id="productPool"></div>
+    <h2 style="text-align: center;" class="my-4">Listado de productos</h2>
+    <div class="container product__container" id="productPool"></div>
 
     <!-- Chat -->
+    <hr class="mt-4">
     <div class="container-md">
         <div class="row" style="place-content: center;">
-            <h1>Chat</h1>
-            <form id="formMessage" >
+            <h1 style="text-align:center;" class="my-4">Chat</h1>
+            <form id="formMessage" style="max-width: 70%; text-align:center">
                 <div class="txt_field">
-                    <input type="text" placeholder="Nombre de usuario" id="usernameInput" autofocus required />
+                    <input type="text" class="form-control" placeholder="Nombre de usuario" id="usernameInput" autofocus required />
                 </div>
-                <div class="txt_field">
-                    <input type="text" placeholder="Ingrese su mensaje" id="messageInput" required />
+                <div class="txt_field mt-4">
+                    <input type="text" class="form-control"  placeholder="Ingrese su mensaje" id="messageInput" required />
                 </div>
-                <input type="submit" value="Enviar Mensaje" />
+                <input type="submit" class="btn btn-secondary mt-4" value="Enviar Mensaje" />
             </form>
 
-            <ul id="messagePool">
+            <ul id="messagePool" style="text-align:center" class="mt-4">
 
             </ul>
         </div>

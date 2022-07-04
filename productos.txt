@@ -28,23 +28,5 @@
 		"price": "7.800",
 		"thumbnail": "https://s3-sa-east-1.amazonaws.com/saasargentina/vijJq9HAPP5XB9IkzdBF/imagen",
 		"id": 5
-	},
-	{
-		"title": "Hola",
-		"price": "123",
-		"thumbnail": "NO TENGO",
-		"id": 6
-	},
-	{
-		"title": "Hola",
-		"price": "123",
-		"thumbnail": "NO TENGO",
-		"id": 7
-	},
-	{
-		"title": "Hola",
-		"price": "123",
-		"thumbnail": "NO TENGO",
-		"id": 8
 	}
 ]
