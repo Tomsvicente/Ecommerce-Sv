@@ -12,8 +12,24 @@
     <title>Ecommerce</title>
 </head>
 
-<body>
-
+<body class="body">
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <div class="container-fluid">
+                <a href="/"><img class="navbar-brand header__logo" src="./img/logo.png" alt="logo"/></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"/>
+                </button>;
+                <div class="collapse navbar-collapse header__burgerMenu" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active text-white-50 fw-bold" aria-current="page" href="/carrito" >Carrito</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <!-- Productos -->
     <div class="container-md">
         <div class="row" style="place-content: center;">
@@ -37,13 +53,13 @@
     </div>
 
     <h2 style="text-align: center;" class="my-4">Listado de productos</h2>
-    <div class="container product__container" id="productPool"></div>
+    <section class="productos" id="productPool"></section>
 
     <!-- Chat -->
     <hr class="mt-4">
     <div class="container-md">
         <div class="row" style="place-content: center;">
-            <h1 style="text-align:center;" class="my-4">Chat</h1>
+            <h2 style="text-align:center;" class="my-4">Chat</h2>
             <form id="formMessage" style="max-width: 70%; text-align:center">
                 <div class="txt_field">
                     <input type="text" class="form-control" placeholder="Nombre de usuario" id="usernameInput" autofocus required />

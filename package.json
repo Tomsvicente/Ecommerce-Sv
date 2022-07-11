@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon ./src/server.js",
-    "sass:compile": "node-sass --include-path scss views/styles.scss views/estilos.css"
+    "sass:compile": "node-sass --include-path scss public/img/styles.scss public/img/estilos.css"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,9 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.16",
     "pug": "^3.0.2",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
     "node-sass": "^7.0.1"

@@ -1,14 +1,5 @@
 const fs = require('fs');
 
-class Producto {
-    constructor(title, price, thumbnail) {
-        this.title = title;
-        this.price = price;
-        this.thumbnail = thumbnail;
-        this.id = 0;
-    }
-}
-
 class Contenedor {
     constructor(file) {
         this.file = file;
@@ -54,7 +45,7 @@ class Contenedor {
             return JSON.parse(await fs.promises.readFile(this.file, 'utf-8'));
         } catch (err) {
             if (err.code === 'ENOENT') {
-                return [];
+                return {};
             } else {
                 console.log('Error en método getAll: ', err);
             }
@@ -106,5 +97,4 @@ class Contenedor {
 
 module.exports = {
     Contenedor: Contenedor,
-    Producto: Producto,
 };

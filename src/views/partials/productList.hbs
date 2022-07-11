@@ -1,11 +1,29 @@
-<div class="container">
-    {{#each productLista}}
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{thumbnail}}" alt="Imagen de {{title}}">
-        <div class="card-body">
-            <h5 class="card-title">{{title}}</h5>
-            <p class="card-text">Precio: $ {{price}}</p>
-        </div>
-    </div>
-    {{/each}}
-</div>
+<div class="container container--width productos__contenedor__tabla">
+                <div class="productos__contenedor__tabla__align">
+                    <div class="row">
+                        {{#each productLista}}
+                    <div class="elementos">
+                        <div class="elementos__caja">
+                        <img class="elementos__img" src={{thumbnail}} alt={{title}}/>
+                        <div class="elementos__imgInfo">
+                            <div class="elementos__imgInfo__int">
+                            <span class="elementos__imgInfo__int__name">{{title}}</span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="elementos__caja_abajo">
+                        <div class="elementos__hbg">
+                            <div class="elementos__hbg__hbgInner"></div>
+                        </div>
+                        <span class="elementos__carri">
+                            <span class="elementos__carri__precio">${{price}}</span>
+                            <span class="elementos__carri__agregar">
+                            <Button variant="elementos__carri__agregar__txt"><Link class="link mt-3 elementos__carri__agregar__txt" method="POST" to="/carrito">Ver detalle</Link></Button>
+                            </span>
+                        </span>
+                        </div>
+                    </div>
+                    {{/each}}
+                    </div>
+                </div>
+            </div>

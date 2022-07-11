@@ -1,12 +1,11 @@
 const { Router } = require('express');
 const router = Router();
+// const path = require('path');
 
-const productos = require('./productos');
+const products = require('./productos.js');
+const cart = require('./carrito.js');
 
-router.get('/', (req, res) => {
-    res.render('index');
-})
-
-router.use('/productos', productos);
+router.use('/productos', products);
+router.use('/carrito', cart);
 
 module.exports = router;

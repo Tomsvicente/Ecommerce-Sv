@@ -48,3 +48,18 @@
       }
     }
   }
+
+  .header {
+    &__burgerMenu {
+      justify-content: space-between;
+      flex-grow: unset !important;
+    }
+  
+    &__search {
+      justify-content: center;
+    }
+
+    &__logo{
+      width: 50px;
+    }
+  }
