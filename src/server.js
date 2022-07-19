@@ -1,27 +1,42 @@
-require('dotenv').config();
-const express = require('express');
-const path = require('path');
-const app = express();
-const puerto = process.env.PORT || 8080;
+const app = require("./app");
+const productos = require("./products.json");
+const Contenedor = require("./models/Container");
+const data = new Contenedor();
+// starting server
 
-const routes = require('./routes/index');
+const expressServer = app.listen(app.get("port"));
+console.log(
+  `Servidor HTTP conectado, escuchando en el puerto ${app.get("port")}`
+);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// websockets
 
-app.use('/', express.static(path.join(__dirname + '../public')));
+const { Server: IOServer } = require("socket.io");
+const io = new IOServer(expressServer);
 
-// API
-app.use('/api', routes);
+io.on("connection", (socket) => {
+  console.log(`User ${socket.id} connected`);
 
-app.use('/*', (req, res) => {
-    res.status(404).send({ error: -2, descripcion: `Ruta ${req.url} y método ${req.method} no implementada`});
+  // chat message event
+
+  socket.on("chat:message", (data) => {
+    io.sockets.emit("chat:message", data);
+    // messagesArray.push(messageInfo);
+    // io.emit("server:mensajes", messagesArray);
+  });
+
+  // chat typing event
+
+  socket.on("chat:typing", (data) => {
+    socket.broadcast.emit("chat:typing", data);
+  });
+
+  // sending products
+
+  socket.on("cliente:producto", async (formData) => {
+    await data.save(formData);
+    productos = await data.getAll();
+  });
+
+  io.sockets.emit("server:productos", productos);
 });
-
-app.listen(puerto, (error) => {
-    if (!error) {
-        console.log(`El servidor se inicio en el puerto ${puerto}`);
-    } else {
-        console.log(`Error al iniciar el servidor en el puerto ${puerto}. Error ${error}`);
-    }
-})
