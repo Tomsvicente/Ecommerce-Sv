@@ -1,11 +1,20 @@
-const { Router } = require("express");
-const router = Router(); 
-const cartControllers = require("../controllers/cartControllers")
+import { Router } from 'express';
+const router = Router();
 
-router.post("/", cartControllers.newCart);
-router.delete("/:id/productos", cartControllers.deleteCartById);
-router.get("/:id/productos", cartControllers.getAllProductsInCart);
-router.post("/:id/productos", cartControllers.addProductsToCart);
-router.delete("/:id/productos/:id_prod", cartControllers.deleteProductFromCartById);
+import { newCart, deleteCart, getProductsCart, saveProductsCart, deleteProductCart } from '../controllers/cart.js';
 
-module.exports = router;
+// /**************************************************/
+// /*****************    RUTAS    ********************/
+// /**************************************************/
+// // Crea un carrito y devuelve su id
+router.post('/', newCart);
+// // Elimina un carrito según su id
+router.delete('/:id', deleteCart);
+// // Devuelve todos los productos de un carrito
+router.get('/:id/productos', getProductsCart);
+// // Recibe y agrega un producto en el carrito
+router.post('/:id/productos', saveProductsCart);
+// // Elimina un producto de un carrito según sus id
+router.delete('/:id/productos/:id_prod', deleteProductCart);
+
+export default router;

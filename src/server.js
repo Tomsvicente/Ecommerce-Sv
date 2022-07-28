@@ -1,42 +1,34 @@
-const app = require("./app");
-const productos = require("./products.json");
-const Contenedor = require("./models/Container");
-const data = new Contenedor();
-// starting server
+// Proyecto final curso Coderhouse - Backend - Primera entrega
 
-const expressServer = app.listen(app.get("port"));
-console.log(
-  `Servidor HTTP conectado, escuchando en el puerto ${app.get("port")}`
-);
+// Configuración
+import express from 'express';
+const app = express();
 
-// websockets
+const puerto = process.env.PORT || 8080;
 
-const { Server: IOServer } = require("socket.io");
-const io = new IOServer(expressServer);
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-io.on("connection", (socket) => {
-  console.log(`User ${socket.id} connected`);
+import routes from './routes/index.js';
 
-  // chat message event
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-  socket.on("chat:message", (data) => {
-    io.sockets.emit("chat:message", data);
-    // messagesArray.push(messageInfo);
-    // io.emit("server:mensajes", messagesArray);
-  });
+app.use('/', express.static(path.join(__dirname + '../public')));
 
-  // chat typing event
+// API
+app.use('/api', routes);
 
-  socket.on("chat:typing", (data) => {
-    socket.broadcast.emit("chat:typing", data);
-  });
-
-  // sending products
-
-  socket.on("cliente:producto", async (formData) => {
-    await data.save(formData);
-    productos = await data.getAll();
-  });
-
-  io.sockets.emit("server:productos", productos);
+app.use('/*', (req, res) => {
+    res.status(404).send({ error: -2, descripcion: `Ruta ${req.url} y método ${req.method} no implementada`});
 });
+
+app.listen(puerto, (error) => {
+    if (!error) {
+        console.log(`El servidor se inicio en el puerto ${puerto}`);
+    } else {
+        console.log(`Error al iniciar el servidor en el puerto ${puerto}. Error ${error}`);
+    }
+})
