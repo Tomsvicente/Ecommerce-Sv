@@ -30,7 +30,7 @@ import rutas from "./routes/index.routes.js";
 //env
 import dotenv from "dotenv";
 dotenv.config();
-const puerto = process.env.PORT;
+const puerto = 3002;
 
 //conf para acceder al body
 app.use(express.json());
