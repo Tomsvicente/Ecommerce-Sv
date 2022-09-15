@@ -1,5 +1,3 @@
-
-# Tomas Vicente
-## CoderHuse-Backend 31000
- Repositorio del curso de Backend en CoderHouse - Comision 31000
-
+# node-express-socketio-sql-mongo-normalizr-passport
+https://backend-desafios-coder.glitch.me/   
+http://backend-desafios-coder-01.herokuapp.com/
